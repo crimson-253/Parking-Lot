@@ -1,89 +1,68 @@
 import java.util.ArrayList;
-import java.util.*;
-import java.util.HashMap;
+import java.util.List;
 
+public class ParkingLot {
+    private List<Motorcycle> motorcycleSlots;
+    private List<Car> carSlots;
+    private List<Truck> truckSlots;
 
-public class ParkingLot
-{
-    private Lvl[] lvls;
-    private final int NUM_LVLS = 3;
-    private int numberSlots;
-
-    // key contains the company name and
-// value is the vehicles present in the list  
-    Map<String, ArrayList<String>> CompanytoVeh;
-
-    // constructor of the class
-    public ParkingLot(int numberSlots)
-    {
-        this.numberSlots = numberSlots;
-        this.CompanytoVeh = new HashMap<String, ArrayList<String>>();
-        lvls = new Lvl[NUM_LVLS];
-        for (int j = 0; j < NUM_LVLS; j++)
-        {
-            lvls[j] = new Lvl(j, numberSlots);
-            System.out.println("Level " + j + " created with " + numberSlots + " " +  "slots");
-        }
+    public ParkingLot() {
+        this.motorcycleSlots = new ArrayList<>(5);
+        this.carSlots = new ArrayList<>(5);
+        this.truckSlots = new ArrayList<>(5);
     }
 
-    // a method for handling the scenario when a vehicle is parked
-    public boolean parkVehicle(Vehicle vh)
-    {
-        System.out.println(" ------------------------------------ ");
-
-        for (int i = 0; i < lvls.length; i++)
-        {
-            if (lvls[i].parkVehicle(vh))
-            {
-                System.out.println(" Level " + i + " with Vehicle Number " + vh.licPlate + " from " + vh.companyName);
-                if (this.CompanytoVeh.containsKey(vh.companyName))
-                {
-                    ArrayList<String> regNoList = this.CompanytoVeh.get(vh.companyName);
-                    this.CompanytoVeh.remove(vh.companyName);
-                    regNoList.add(vh.licPlate);
-                    this.CompanytoVeh.put(vh.companyName, regNoList);
-                }
-                else
-                {
-                    ArrayList<String> regNoList = new ArrayList<String>();
-                    regNoList.add(vh.licPlate);
-                    this.CompanytoVeh.put(vh.companyName, regNoList);
-                }
+    public boolean park(Vehicle vehicle) {
+        if (vehicle instanceof Motorcycle) {
+            if (motorcycleSlots.size() < 5) {
+                motorcycleSlots.add((Motorcycle) vehicle);
+                return true;
+            }
+        } else if (vehicle instanceof Car) {
+            if (carSlots.size() < 5) {
+                carSlots.add((Car) vehicle);
+                return true;
+            }
+        } else if (vehicle instanceof Truck) {
+            if (truckSlots.size() < 5) {
+                truckSlots.add((Truck) vehicle);
                 return true;
             }
         }
-        System.out.println("PARKING IS FULL");
         return false;
     }
 
-    // method for handling the scenario when a vehicle leaves
-    public boolean leave(Vehicle vh, int lvl)
-    {
-        System.out.println(" ------------------------------------------ ");
-        lvls[lvl].slotFreed();
-        System.out.println("Slot freed from  Level " + lvl + " and exited  " + vh.licPlate + " of " + vh.companyName);
-        ArrayList<String> vhList = this.CompanytoVeh.get(vh.companyName);
-
-// check if the vehicle is present in the list or not  
-// if present, remove the vehicle from the list  
-        if (vhList.contains(vh.licPlate))
-        {
-            vhList.remove(vh.licPlate);
+    public boolean unpark(String licensePlateNumber) {
+        for (Motorcycle motorcycle : motorcycleSlots) {
+            if (motorcycle.getLicensePlateNumber().equals(licensePlateNumber)) {
+                motorcycleSlots.remove(motorcycle);
+                return true;
+            }
         }
-
-        return true;
+        for (Car car : carSlots) {
+            if (car.getLicensePlateNumber().equals(licensePlateNumber)) {
+                carSlots.remove(car);
+                return true;
+            }
+        }
+        for (Truck truck : truckSlots) {
+            if (truck.getLicensePlateNumber().equals(licensePlateNumber)) {
+                truckSlots.remove(truck);
+                return true;
+            }
+        }
+        return false;
     }
 
-    // method for displaying the list of vehicle of the given company
-    public void ComapnyParked(String companyName)
-    {
-        System.out.println(" ------------------------------------------ ");
-        ArrayList<String> vhList = this.CompanytoVeh.get(companyName);
-        System.out.print("The vehicles of " + companyName + " : ");
-        for(String vl : vhList)
-        {
-            System.out.print(vl + "\t");
-        }
-        System.out.println();
+    public List<Motorcycle> getMotorcycleSlots() {
+        return motorcycleSlots;
     }
-}  
+
+    public List<Car> getCarSlots() {
+        return carSlots;
+    }
+
+    public List<Truck> getTruckSlots() {
+        return truckSlots;
+    }
+}

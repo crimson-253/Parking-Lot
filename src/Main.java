@@ -1,36 +1,62 @@
-public class Main
-{
-    public static void main(String[] argvs)
-    {
-        ParkingLot pl = new ParkingLot(2);
+import java.util.Scanner;
 
-        Car car1 = new Car("1234", "Microsoft");
+public class Main {
+    public static void main(String[] args) {
+        ParkingLot parkingLot = new ParkingLot();
+        Status status = new Status(parkingLot);
+        Scanner scanner = new Scanner(System.in);
 
-        Motorcycle m1 = new Motorcycle("4016", "Microsoft");
+        while (true) {
+            System.out.println("1. Park a vehicle");
+            System.out.println("2. Unpark a vehicle");
+            System.out.println("3. Show parkinglot status");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+            int option = scanner.nextInt();
 
-        Car car2 = new Car("1609", "Google");
-
-        Motorcycle m2 = new Motorcycle("1389", "Google");
-
-        Car car3 = new Car("1809", "Microsoft");
-
-        pl.parkVehicle(car1);
-        pl.parkVehicle(m1);
-        pl.parkVehicle(car2);
-
-        pl.ComapnyParked("Microsoft");
-
-        pl.ComapnyParked("Google");
-
-        pl.leave(m1,0);
-
-
-        pl.ComapnyParked("Microsoft");
-
-
-        pl.parkVehicle(m2);
-        pl.parkVehicle(car3);
-
-
+            switch (option) {
+                case 1:
+                    System.out.print("Enter license plate number: ");
+                    String licensePlateNumber = scanner.next();
+                    System.out.print("Enter company name: ");
+                    String companyName = scanner.next();
+                    System.out.print("Enter vehicle type (Motorcycle, Car, Truck): ");
+                    String vehicleType = scanner.next();
+                    Vehicle vehicle;
+                    if (vehicleType.equalsIgnoreCase("Motorcycle")) {
+                        vehicle = new Motorcycle(licensePlateNumber, companyName);
+                    } else if (vehicleType.equalsIgnoreCase("Car")) {
+                        vehicle = new Car(licensePlateNumber, companyName);
+                    } else if (vehicleType.equalsIgnoreCase("Truck")) {
+                        vehicle = new Truck(licensePlateNumber, companyName);
+                    } else {
+                        System.out.println("Invalid vehicle type!");
+                        continue;
+                    }
+                    if (parkingLot.park(vehicle)) {
+                        System.out.println("Vehicle parked successfully!");
+                    } else {
+                        System.out.println("Parking lot is full!");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter license plate number: ");
+                    String unparkLicensePlateNumber = scanner.next();
+                    if (parkingLot.unpark(unparkLicensePlateNumber)) {
+                        System.out.println("Vehicle unparked successfully!");
+                    } else {
+                        System.out.println("Vehicle not found!");
+                    }
+                    break;
+                case 3:
+                    status.showStatus();
+                    break;
+                case 4:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+            }
+        }
     }
 }
