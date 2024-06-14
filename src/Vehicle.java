@@ -1,6 +1,6 @@
 public abstract class Vehicle {
-    private String licensePlateNumber;
-    private String companyName;
+    private final String licensePlateNumber;
+    private final String companyName;
 
     public Vehicle(String licensePlateNumber, String companyName) {
         this.licensePlateNumber = licensePlateNumber;
