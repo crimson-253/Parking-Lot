@@ -1,5 +1,5 @@
 public class Status {
-    private ParkingLot parkingLot;
+    private final ParkingLot parkingLot;
 
     public Status(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;

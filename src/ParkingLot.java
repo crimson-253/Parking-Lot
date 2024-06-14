@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingLot {
-    private List<Motorcycle> motorcycleSlots;
-    private List<Car> carSlots;
-    private List<Truck> truckSlots;
+    private final List<Motorcycle> motorcycleSlots;
+    private final List<Car> carSlots;
+    private final List<Truck> truckSlots;
 
     public ParkingLot() {
         this.motorcycleSlots = new ArrayList<>(5);
