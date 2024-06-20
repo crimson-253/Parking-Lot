@@ -9,7 +9,7 @@ public class Main {
         while (true) {
             System.out.println("1. Park a vehicle");
             System.out.println("2. Unpark a vehicle");
-            System.out.println("3. Show parkinglot status");
+            System.out.println("3. Show Parkinglot status");
             System.out.println("4. Exit");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
